@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sınıf Panosu</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/ai_hub.css">
+    <link rel="stylesheet" href="css/exams.css">
+    <link rel="stylesheet" href="css/liquid_glass.css">
+    <link rel="stylesheet" href="css/mobile_modern.css">
+    <link rel="stylesheet" href="css/hub_mobile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo" onclick="showPage('home')">SOSYAAL 9A</div>
+            <nav>
+                <a onclick="showPage('home')" id="nav-home">Ana Sayfa</a>
+                <a onclick="showPage('schedule')" id="nav-schedule">Ders Programı</a>
+                <a onclick="showPage('homework')" id="nav-homework">Ödevler</a>
+                <a onclick="showPage('exams')" id="nav-exams">Yazılılar</a>
+                <a onclick="showPage('hub')" id="nav-hub">HUB</a>
+                <a onclick="showPage('ai')" id="nav-ai">SENA AI</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <div id="homePage" class="page active">
+        <!-- Desktop Home View -->
+        <div class="desktop-home-view">
+            <section class="hero">
+                <!-- Search Bar -->
+                <div class="search-container"
+                    style="display:flex; align-items:center; gap:8px; padding-right:8px; border: 5px solid #ffffff !important; border-radius: 40px; background: rgba(0, 0, 0, 1) !important; backdrop-filter: blur(40px); box-shadow: 0 0 30px rgba(255, 255, 255, 0.3) !important; transition: all 0.3s ease; position: relative; z-index: 100;">
+                    <input type="text" id="mainSearchInput" class="search-box" placeholder="Google'da bir şeyler ara..."
+                        onkeydown="if(event.key==='Enter') window.open('https://www.google.com/search?q=' + this.value, '_blank')"
+                        style="border:none; background:transparent; backdrop-filter:none; flex:1; padding:22px 5px 22px 35px; color:#fff; font-size:18px; font-weight:700; outline:none;">
+                    <button class="search-icon-btn"
+                        onclick="window.open('https://www.google.com/search?q=' + document.getElementById('mainSearchInput').value, '_blank')"
+                        style="background:transparent; border:none; color:rgba(255,255,255,0.7); cursor:pointer; padding:10px; display:flex; align-items:center; justify-content:center; transition: all 0.3s;">
+                        <i data-lucide="search" style="width:22px; height:22px;"></i>
+                    </button>
+                    <!-- Add Shortcut Button (+) - Hidden by default -->
+                    <button id="scAddBtn"
+                        style="width:42px;height:42px;border-radius:14px;background:#fff;border:none;color:#000;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:22px;font-weight:900;transition:all 0.3s;box-shadow: 0 4px 15px rgba(255,255,255,0.2);flex-shrink:0;">＋</button>
+                    <!-- Shortcuts Menu Button (4-squares) -->
+                    <button id="shortcutsBtn"
+                        style="width:42px;height:42px;border-radius:14px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.3s;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Clock & Weather Row -->
+                <div class="hero-stats-row">
+                    <!-- Clock Section -->
+                    <div class="clock-display">
+                        <div id="currentTime" class="time">20:19</div>
+                        <div id="currentDate" class="date">28 Şubat Cumartesi</div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="hero-divider"></div>
+
+                    <!-- Weather Section -->
+                    <div class="weather-widget">
+                        <div class="weather-icon">
+                            <i data-lucide="cloud-sun"></i>
+                        </div>
+                        <div class="weather-info">
+                            <span class="temp">4°</span>
+                            <span class="condition">Parçalı Bulutlu</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day Selector -->
+                <div class="day-selector-container">
+                    <div class="day-selector">
+                        <button class="day-btn" data-day="Pazartesi">Pzt</button>
+                        <button class="day-btn" data-day="Salı">Salı</button>
+                        <button class="day-btn" data-day="Çarşamba">Çarş</button>
+                        <button class="day-btn" data-day="Perşembe">Perş</button>
+                        <button class="day-btn" data-day="Cuma">Cuma</button>
+                    </div>
+                </div>
+
+                <!-- Lesson Carousel -->
+                <div class="schedule-viewer">
+                    <div id="carousel" class="carousel-container">
+                        <!-- Lessons will be added here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Mobile Home View (Dashboard Style) -->
+        <!-- Mobile Home View (Modern Dashboard Style) -->
+        <div class="mobile-home-view mobile-only">
+            <!-- New Modern Mobile Header -->
+            <div class="mobile-header">
+                <div class="header-left">
+                    <p class="summary-label">GÜNLÜK ÖZET</p>
+                    <h1 id="mobileDateDisplay">Salı, 10 Şubat</h1>
+                </div>
+                <div class="header-right">
+                    <div class="header-icon-btn">
+                        <i data-lucide="bell"></i>
+                    </div>
+                    <div class="profile-avatar-circle">
+                        <span>9A</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Scrollable Top Nav Bar -->
+            <div class="mobile-top-nav-container">
+                <div class="mobile-top-nav">
+                    <a onclick="showPage('home')" class="active">Ana Sayfa</a>
+                    <a onclick="showPage('schedule')">Ders Programı</a>
+                    <a onclick="showPage('homework')">Ödevler</a>
+                    <a onclick="showPage('exams')">Yazılılar</a>
+                    <a onclick="showPage('hub')">Hub</a>
+                    <a onclick="showPage('ai')">AI</a>
+                </div>
+            </div>
+
+            <!-- Modern Quick Action Grid (Circular) - Commented out as requested
+            <div class="modern-action-grid">
+                <div class="modern-grid-item" onclick="showPage('homework')">
+                    <div class="modern-icon-circle orange"><i data-lucide="clipboard-list"></i></div>
+                    <span>ÖDEVLER</span>
+                </div>
+                <div class="modern-grid-item" onclick="showPage('exams')">
+                    <div class="modern-icon-circle purple"><i data-lucide="edit-3"></i></div>
+                    <span>YAZILILAR</span>
+                </div>
+                <div class="modern-grid-item" onclick="showPage('hub')">
+                    <div class="modern-icon-circle brown"><i data-lucide="compass"></i></div>
+                    <span>HUB</span>
+                </div>
+                <div class="modern-grid-item" onclick="showPage('ai')">
+                    <div class="modern-icon-circle sand"><i data-lucide="message-square"></i></div>
+                    <span>SENA</span>
+                </div>
+            </div>
+            -->
+
+            <!-- Current Lesson Hero Card (Sleek/Thin) -->
+            <div class="modern-hero-section">
+                <div class="modern-hero-card">
+                    <div class="hero-top">
+                        <span class="now-badge">ŞU AN</span>
+                        <div class="hero-time-info">
+                            <span id="mobileHeroTime">14:40</span>
+                            <span id="mobileHeroEndTime">15:20 biter</span>
+                        </div>
+                    </div>
+                    <h2 id="mobileHeroSubject">İngilizce</h2>
+                    <div class="hero-bottom">
+                        <div class="hero-location">
+                            <i data-lucide="map-pin"></i>
+                            <span id="mobileHeroLocation">Derslik 9A</span>
+                        </div>
+                        <div id="mobileHeroHwStatus" class="hero-hw-status">
+                            <!-- JS will inject "Ödev Var" badge if needed -->
+                        </div>
+                    </div>
+                    <div class="hero-progress-bar">
+                        <div id="heroProgressFill" class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Minimalist Day Selector (Circular) -->
+            <div class="modern-calendar-section">
+                <p class="section-label">DERS PROGRAMI</p>
+                <div class="modern-day-selector">
+                    <div class="day-col">
+                        <span class="day-name">PZT</span>
+                        <button class="day-circle" data-day="Pazartesi">9</button>
+                    </div>
+                    <div class="day-col">
+                        <span class="day-name">SAL</span>
+                        <button class="day-circle active" data-day="Salı">10</button>
+                    </div>
+                    <div class="day-col">
+                        <span class="day-name">ÇAR</span>
+                        <button class="day-circle" data-day="Çarşamba">11</button>
+                    </div>
+                    <div class="day-col">
+                        <span class="day-name">PER</span>
+                        <button class="day-circle" data-day="Perşembe">12</button>
+                    </div>
+                    <div class="day-col">
+                        <span class="day-name">CUM</span>
+                        <button class="day-circle" data-day="Cuma">13</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weekly Flow (Timeline) -->
+            <div class="modern-timeline-section">
+                <div class="section-header">
+                    <p class="section-label">HAFTALIK AKIŞ</p>
+                    <button class="see-all-btn" onclick="showPage('schedule')">Tümünü Gör</button>
+                </div>
+                <div id="mobileHomeTimeline" class="modern-timeline-grid">
+                    <!-- Timeline cards will be rendered here by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Page -->
+    <div id="schedulePage" class="page">
+        <div class="schedule-table-container">
+            <div id="desktopScheduleControls"
+                style="margin-bottom: 25px; display: flex; justify-content: center; align-items: center; gap: 20px;">
+                <h2 style="font-size: 28px; letter-spacing: 1px;">HAFTALIK DERS PROGRAMI</h2>
+            </div>
+            <!-- ... Table and buttons ... -->
+
+            <!-- Mobile Timeline (Visible only on mobile) -->
+            <div id="mobileScheduleContainer" style="display: none;">
+                <div class="mobile-schedule-header">
+                    <button class="mobile-icon-back-btn" onclick="showPage('home')">
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+                    <div class="mobile-schedule-tabs">
+                        <button onclick="setMobileScheduleView('today')" id="mobile-tab-today"
+                            class="mobile-tab-btn active">BUGÜN</button>
+                        <button onclick="setMobileScheduleView('tomorrow')" id="mobile-tab-tomorrow"
+                            class="mobile-tab-btn">YARIN</button>
+                        <button onclick="setMobileScheduleView('week')" id="mobile-tab-week"
+                            class="mobile-tab-btn">HAFTA</button>
+                    </div>
+                </div>
+                <div id="schedulePageTimeline" class="mobile-timeline-container">
+                    <!-- Mobile timeline items loaded here -->
+                </div>
+            </div>
+
+            <!-- Desktop Table (Hidden on mobile via CSS) -->
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Pazartesi</th>
+                        <th>Salı</th>
+                        <th>Çarşamba</th>
+                        <th>Perşembe</th>
+                        <th>Cuma</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleTableBody">
+                    <!-- Updated with new 8-lesson structure -->
+                    <tr>
+                        <td>08:00 Sağlık</td>
+                        <td>08:00 Edebiyat</td>
+                        <td>08:00 Tarih</td>
+                        <td>08:00 Görsel S.</td>
+                        <td>08:00 Coğrafya</td>
+                    </tr>
+                    <tr>
+                        <td>08:50 Sos. Hayat</td>
+                        <td>08:50 Edebiyat</td>
+                        <td>08:50 Tarih</td>
+                        <td>08:50 Görsel S.</td>
+                        <td>08:50 Coğrafya</td>
+                    </tr>
+                    <tr>
+                        <td>09:40 İngilizce</td>
+                        <td>09:40 Matematik</td>
+                        <td>09:40 Edebiyat</td>
+                        <td>09:40 Edebiyat</td>
+                        <td>09:40 Biyoloji</td>
+                    </tr>
+                    <tr>
+                        <td>10:30 İngilizce</td>
+                        <td>10:30 Matematik</td>
+                        <td>10:30 Edebiyat</td>
+                        <td>10:30 Fizik</td>
+                        <td>10:30 Biyoloji</td>
+                    </tr>
+                    <tr>
+                        <td>11:30 Beden E.</td>
+                        <td>11:30 Almanca</td>
+                        <td>11:30 Dini Bilgi</td>
+                        <td>11:30 Fizik</td>
+                        <td>11:30 Matematik</td>
+                    </tr>
+                    <tr>
+                        <td>13:00 Beden E.</td>
+                        <td>13:00 Almanca</td>
+                        <td>13:00 Bilişim</td>
+                        <td>13:00 Rehberlik</td>
+                        <td>12:15 Matematik</td>
+                    </tr>
+                    <tr>
+                        <td>13:50 Kimya</td>
+                        <td>13:50 İngilizce</td>
+                        <td>13:50 Matematik</td>
+                        <td>13:50 Din Kült.</td>
+                        <td>13:50 Almanca</td>
+                    </tr>
+                    <tr>
+                        <td>14:40 Kimya</td>
+                        <td>14:40 İngilizce</td>
+                        <td>14:40 Matematik</td>
+                        <td>14:40 Din Kült.</td>
+                        <td>14:35 Almanca</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top: 35px; display: flex; justify-content: center; align-items: center;">
+                <button onclick="showTomorrowSchedule()" class="tomorrow-btn">YARIN</button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <!-- Homework Page -->
+    <div id="homeworkPage" class="page">
+        <!-- New Mobile Homework Header -->
+        <div class="mobile-header mobile-only">
+            <div class="mobile-header-top">
+                <button class="mobile-icon-back-btn" onclick="showPage('home')">
+                    <i data-lucide="chevron-left"></i>
+                </button>
+                <h1>Ödevler</h1>
+                <div class="mobile-header-actions">
+                    <button class="mobile-icon-btn" onclick="openHomeworkModal()">
+                        <i data-lucide="plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mobile-stats-row">
+                <div class="mobile-stat-card">
+                    <span class="stat-value" id="mobileHwTotalCount">0</span>
+                    <span class="stat-label">Toplam</span>
+                </div>
+                <div class="mobile-stat-card urgent">
+                    <span class="stat-value" id="mobileHwUrgentCount">0</span>
+                    <span class="stat-label">Acil</span>
+                </div>
+                <div class="mobile-stat-card completed" onclick="alert('Tamamlananlar yakında!')">
+                    <span class="stat-value">0</span>
+                    <span class="stat-label">Biten</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="homework-layout">
+            <!-- Left Column: Controls & List -->
+            <div class="homework-left-column homework-list-container">
+
+                <!-- Desktop Only Section -->
+                <div class="desktop-only">
+                    <button onclick="openHomeworkModal()" class="liquid-glass-btn"
+                        style="width: 100%; padding: 18px; border-radius: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 20px; border: none;">
+                        <i data-lucide="plus-circle" style="width: 20px; height: 20px;"></i> YENİ ÖDEV EKLE
+                    </button>
+
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <button id="sortDueBtn" onclick="sortHomework('dueDate')"
+                            style="flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #333; background: transparent; color: #888; font-size: 12px; cursor: pointer; transition: all 0.3s;">Bitiş
+                            Tarihi</button>
+                        <button id="sortGivenBtn" onclick="sortHomework('givenDate')"
+                            style="flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #333; background: transparent; color: #888; font-size: 12px; cursor: pointer; transition: all 0.3s;">Veriliş
+                            Tarihi</button>
+                    </div>
+
+                    <div id="homeworkCards" style="height: 600px; overflow-y: auto; padding-right: 5px;">
+                        <!-- Desktop Homework cards -->
+                    </div>
+                </div>
+
+                <!-- Modern Mobile Homework List -->
+                <div class="mobile-only">
+                    <div class="mobile-hw-filter-tabs">
+                        <button class="hw-tab active" onclick="sortHomework('dueDate')">Süresi Yaklaşan</button>
+                        <button class="hw-tab" onclick="sortHomework('givenDate')">Yeni Eklenenler</button>
+                    </div>
+
+                    <div id="mobileHomeworkList" class="mobile-modern-hw-list">
+                        <!-- New premium card design will be rendered here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Calendar Area (Desktop Only) -->
+            <div class="desktop-only"
+                style="flex: 1; background: rgba(20, 20, 20, 0.4); border-radius: 25px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); height: fit-content;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                    <h2 id="calendarMonthTitle" style="font-size: 24px; letter-spacing: 1px;">OCAK 2026</h2>
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <div class="view-toggles"
+                            style="display: flex; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 12px; margin-right: 15px;">
+                            <button class="view-toggle active" data-view="month"
+                                style="padding: 8px 16px; border-radius: 8px; border: none; background: #222; color: #fff; cursor: pointer; font-size: 13px; font-weight: 600;">Ay</button>
+                            <button class="view-toggle" data-view="week"
+                                style="padding: 8px 16px; border-radius: 8px; border: none; background: transparent; color: #888; cursor: pointer; font-size: 13px; font-weight: 600;">Hafta</button>
+                        </div>
+                        <button onclick="previousMonth()"
+                            style="background: rgba(255,255,255,0.05); border: none; color: #fff; width: 40px; height: 40px; border-radius: 12px; cursor: pointer;">&lt;</button>
+                        <button onclick="nextMonth()"
+                            style="background: rgba(255,255,255,0.05); border: none; color: #fff; width: 40px; height: 40px; border-radius: 12px; cursor: pointer;">&gt;</button>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 15px; margin-bottom: 15px;">
+                    <div style="text-align: center; color: #888; font-size: 12px; font-weight: 700;">PZT</div>
+                    <div style="text-align: center; color: #888; font-size: 12px; font-weight: 700;">SALI</div>
+                    <div style="text-align: center; color: #888; font-size: 12px; font-weight: 700;">ÇARŞ</div>
+                    <div style="text-align: center; color: #888; font-size: 12px; font-weight: 700;">PERŞ</div>
+                    <div style="text-align: center; color: #888; font-size: 12px; font-weight: 700;">CUMA</div>
+                    <div style="text-align: center; color: #ff4757; font-size: 12px; font-weight: 700;">CMT</div>
+                    <div style="text-align: center; color: #ff4757; font-size: 12px; font-weight: 700;">PAZ</div>
+                </div>
+
+                <div id="calendarGrid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 15px;">
+                    <!-- Calendar cells will be listed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Homework Detail Modal -->
+    <div id="homeworkDetailModal" class="modal-overlay" onclick="if(event.target === this) closeHomeworkDetailModal()"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center;">
+        <div class="hub-modal animate-fade"
+            style="max-width: 500px; background: #1a1a1a; padding: 40px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1); width: 90%; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
+            <button onclick="closeHomeworkDetailModal()" class="modal-close-btn"
+                style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none; color: #fff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                <i data-lucide="x"></i>
+            </button>
+
+            <div class="modal-main-content">
+                <div
+                    style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px; opacity: 0.6; font-size: 10px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;">
+                    <span style="width: 6px; height: 6px; border-radius: 50%; background-color: #3b82f6;"></span>
+                    <span>ÖDEV DETAYI</span>
+                </div>
+
+                <h4 id="detailSubject" style="margin: 0 0 20px 0; font-size: 24px; color: #fff; font-weight: 700;"></h4>
+
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+
+                    <div>
+                        <label
+                            style="display: block; color: rgba(255,255,255,0.4); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Açıklama</label>
+                        <p id="detailDescription"
+                            style="color: #ddd; font-size: 14px; font-weight: 500; white-space: pre-wrap; line-height: 1.6; margin: 0;">
+                        </p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label
+                                style="display: block; color: rgba(255,255,255,0.4); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Veriliş
+                                Tarihi</label>
+                            <p id="detailGivenDate" style="color: #fff; font-weight: 600; font-size: 15px; margin: 0;">
+                            </p>
+                        </div>
+                        <div>
+                            <label
+                                style="display: block; color: rgba(255,255,255,0.4); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Son
+                                Teslim</label>
+                            <p id="detailDueDate"
+                                style="color: #ef4444; font-weight: bold; font-size: 15px; margin: 0;"></p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label
+                            style="display: block; color: rgba(255,255,255,0.4); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Teslim
+                            Dersi</label>
+                        <p id="detailLesson" style="color: #fff; font-weight: 600; font-size: 15px; margin: 0;"></p>
+                    </div>
+
+                    <!-- Admin Actions -->
+                    <div
+                        style="display: flex; gap: 10px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                        <button id="editHomeworkBtn"
+                            style="flex: 1; background: rgba(255,255,255,0.05); color: #aaa; border: none; padding: 12px; border-radius: 12px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-weight: 700; font-size: 12px; transition: all 0.3s;">
+                            <i data-lucide="edit-2" style="width: 16px; height: 16px; margin-right: 8px;"></i> DÜZENLE
+                        </button>
+                        <button id="deleteHomeworkBtn"
+                            style="flex: 1; background: rgba(239, 68, 68, 0.1); color: #ef4444; border: none; padding: 12px; border-radius: 12px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-weight: 700; font-size: 12px; transition: all 0.3s;">
+                            <i data-lucide="trash-2" style="width: 16px; height: 16px; margin-right: 8px;"></i> SİL
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hub Page -->
+    <div id="hubPage" class="page">
+        <!-- Desktop Hub View (Iframe) -->
+        <div class="desktop-only">
+            <iframe id="hubFrame" src="classcloud---smart-board-file-hub/hub_app.html"
+                style="width: 100%; height: calc(100vh - 100px); border: none; border-radius: 20px;"></iframe>
+        </div>
+
+        <!-- Modern Mobile Hub View -->
+        <div class="mobile-only">
+            <div class="mobile-header">
+                <div class="mobile-header-top">
+                    <button class="mobile-icon-back-btn" onclick="showPage('home')"
+                        style="background: rgba(255,255,255,0.05); color: #fff;">
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+                    <h1>Bulut Paylaşım</h1>
+                    <div class="mobile-header-actions">
+                        <button class="mobile-icon-btn" onclick="toggleHubFabs()" id="mobileHeaderAddBtn"
+                            style="background: #000; color: #fff; width: 40px; height: 40px; border-radius: 12px; border: none; display: flex; align-items: center; justify-content: center;">
+                            <i data-lucide="plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mobile-stats-row">
+                <div class="mobile-stat-card">
+                    <span class="stat-value" id="mobileHubTotalCount">0</span>
+                    <span class="stat-label">TOPLAM</span>
+                </div>
+                <div class="mobile-stat-card urgent">
+                    <span class="stat-value" id="mobileHubFolderCount">0</span>
+                    <span class="stat-label">KLASÖR</span>
+                </div>
+                <div class="mobile-stat-card completed">
+                    <span class="stat-value" id="mobileHubFileCount">0</span>
+                    <span class="stat-label">DOSYA</span>
+                </div>
+            </div>
+
+
+
+            <div class="mobile-hub-search-row">
+                <div class="mobile-search-bar">
+                    <i data-lucide="search"></i>
+                    <input id="mobileHubSearchInput" type="text" placeholder="Bulutta bir şeyler ara..."
+                        autocomplete="off">
+                </div>
+            </div>
+
+            <div class="mobile-hub-filter-tabs">
+                <button class="hub-tab active" data-filter="all">Tümü</button>
+                <button class="hub-tab" data-filter="file">Dosyalar</button>
+                <button class="hub-tab" data-filter="image">Fotoğraflar</button>
+                <button class="hub-tab" data-filter="folder">Klasörler</button>
+            </div>
+
+            <div id="mobileHubGrid" class="mobile-modern-hub-list">
+                <!-- Mobile Hub cards will be rendered here -->
+            </div>
+
+            <!-- Floating Action Buttons -->
+
+        </div>
+    </div>
+    </div>
+
+    <!-- AI Page -->
+    <div id="aiPage" class="page mobile-only-page" style="background: #fdfaf5 !important;">
+
+        <!-- Mobile Header (Standard) -->
+        <div class="mobile-header">
+            <div class="mobile-header-top">
+                <button class="mobile-icon-back-btn" onclick="showPage('home')"
+                    style="background: #fff; color: #1a1a1a;">
+                    <i data-lucide="chevron-left"></i>
+                </button>
+                <h1>AI Asistanı</h1>
+                <div class="mobile-header-actions">
+                    <button class="mobile-icon-btn" onclick="openAdminAuthModal()"
+                        style="background: #fff; color: #1a1a1a; width: 40px; height: 40px; border-radius: 12px; border: none; display: flex; align-items: center; justify-content: center;">
+                        <i data-lucide="settings-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Container -->
+        <div class="mobile-ai-content" style="padding: 0 25px; padding-bottom: 100px;">
+
+            <!-- Standard Mobile Search Bar -->
+            <div class="mobile-search-bar" style="margin-bottom: 25px;">
+                <i data-lucide="search"></i>
+                <input id="aiSearchInput" type="text" placeholder="Asistan veya konu ara..." autocomplete="off">
+            </div>
+
+            <!-- Admin Controls -->
+            <div id="adminControlsV2" class="admin-controls-v2" style="display: none; gap: 10px; margin-bottom: 20px;">
+                <button class="add-notebook-btn" onclick="openAddNotebookInline()"
+                    style="flex: 1; padding: 12px; font-size: 13px;">
+                    <i data-lucide="plus"></i> YENİ
+                </button>
+                <button class="add-notebook-btn" onclick="deleteAllNotebooks()"
+                    style="flex: 1; background: #fff0f0; color: #e74c3c; border: 1px solid #ffcccc; padding: 12px; font-size: 13px;">
+                    <i data-lucide="trash-2"></i> SİL
+                </button>
+            </div>
+
+            <!-- Notebook Grid (Reusing Hub Grid Styles) -->
+            <div id="notebookGrid" class="mobile-modern-hub-list"
+                style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+                <!-- Notebooks rendered via JS -->
+            </div>
+
+            <!-- See All Button -->
+            <div style="display: flex; justify-content: center; margin-top: 25px;">
+                <button onclick="alert('Daha fazlası yakında!')" style="
+                    background: #f1ede6; 
+                    color: #8d7b68; 
+                    border: none; 
+                    padding: 12px 30px; 
+                    border-radius: 20px; 
+                    font-size: 13px; 
+                    font-weight: 800; 
+                    letter-spacing: 1px; 
+                    cursor: pointer; 
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+                ">
+                    TÜMÜNÜ GÖR
+                </button>
+            </div>
+
+
+            <!-- INLINE ADMIN AUTH FORM (Converted to ROBUST POP-UP) -->
+            <div id="adminAuthInline" class="robust-fixed-modal" style="display: none;">
+                <div class="robust-modal-backdrop" onclick="closeAdminAuthInline()"></div>
+                <div class="robust-modal-content" style="max-width: 400px; text-align: center;">
+                    <div style="margin-bottom: 20px;">
+                        <i data-lucide="lock" style="width: 40px; height: 40px; color: #ffd700;"></i>
+                    </div>
+                    <h3 style="color: #fff; margin-bottom: 20px;">Yönetici Girişi</h3>
+
+                    <div style="margin-bottom: 20px;">
+                        <input type="password" id="adminPasswordInputInline" class="premium-input-inline"
+                            placeholder="Şifre Giriniz (829615)"
+                            style="text-align: center; font-size: 18px; letter-spacing: 2px;">
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button onclick="closeAdminAuthInline()"
+                            style="flex: 1; background: rgba(255,255,255,0.1); color: #fff; border: none; padding: 12px; border-radius: 12px; cursor: pointer;">İptal</button>
+                        <button onclick="verifyAdminPasswordInline()" class="auth-submit-btn"
+                            style="flex: 2; padding: 12px; border-radius: 12px;">GİRİŞ YAP</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- ROBUST FIXED MODAL FOR ADD NOTEBOOK (Pop-up Style) -->
+            <div id="addNotebookInline" class="robust-fixed-modal" style="display: none;">
+                <div class="robust-modal-backdrop" onclick="closeAddNotebookInline()"></div>
+                <div class="robust-modal-content">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="margin: 0; color: #fff; font-size: 18px; font-weight: 700;">Yeni Defter
+                            Oluştur
+                        </h3>
+                        <button onclick="closeAddNotebookInline()" class="auth-close-btn">
+                            <i data-lucide="x" style="width: 24px; height: 24px;"></i>
+                        </button>
+                    </div>
+                    <form onsubmit="addNewNotebook(event)">
+                        <label
+                            style="display: block; color: rgba(255,255,255,0.6); font-size: 12px; margin-bottom: 8px;">BAŞLIK</label>
+                        <input type="text" id="newNbTitle" placeholder="Örn: Tarih Notları" class="premium-input-inline"
+                            required>
+
+                        <label
+                            style="display: block; color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 15px; margin-bottom: 8px;">AÇIKLAMA</label>
+                        <input type="text" id="newNbDesc" placeholder="Kısa açıklama..." class="premium-input-inline">
+
+                        <label
+                            style="display: block; color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 15px; margin-bottom: 8px;">NOTEBOOKLM
+                            LINKI</label>
+                        <input type="url" id="newNbLink" placeholder="https://notebooklm.google.com/..."
+                            class="premium-input-inline" required>
+
+                        <div style="margin-top: 25px; display: flex; gap: 10px;">
+                            <button type="button" onclick="closeAddNotebookInline()"
+                                style="flex: 1; background: rgba(255,255,255,0.1); border: none; padding: 12px; border-radius: 12px; color: #fff; cursor: pointer;">İptal</button>
+                            <button type="submit" class="auth-submit-btn"
+                                style="flex: 2; padding: 12px; font-size: 14px; background: #4caf50; color: #fff;">OLUŞTUR</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div> <!-- Close Content Container -->
+    </div> <!-- Close Page -->
+
+    <!-- Exams Page -->
+    <div id="examsPage" class="page">
+        <!-- New Mobile Exams Header -->
+        <div class="mobile-header mobile-only">
+            <div class="mobile-header-top">
+                <button class="mobile-icon-back-btn" onclick="showPage('home')">
+                    <i data-lucide="chevron-left"></i>
+                </button>
+                <h1>Yazılılar</h1>
+                <div class="mobile-header-actions">
+                    <button class="mobile-icon-btn" onclick="openAdminModal()"
+                        style="display: none; background: #1a1a1a; color: #fff;" id="mobileAddExamBtn">
+                        <i data-lucide="plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mobile-search-bar">
+                <i data-lucide="search"></i>
+                <input id="mobileExamSearchInput" type="text" placeholder="" autocomplete="off">
+            </div>
+
+            <div class="mobile-exam-filter-tabs">
+                <button class="exam-tab active" data-filter="aktif">Sıradakiler</button>
+                <button class="exam-tab" data-filter="girilen">Geçmiştekiler</button>
+            </div>
+        </div>
+
+        <!-- Desktop Only Header (Legacy) - HIDDEN TO UNIFY UI -->
+        <header class="exams-header sticky z-50 desktop-only" style="display: none !important;">
+            <div class="exams-header-container">
+                <!-- TOP ROW -->
+                <div class="exams-header-top"
+                    style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="exams-header-title-area" onclick="showPage('home')" style="cursor: pointer;">
+                        <h1 class="exams-title">SINIF<span>HUB</span></h1>
+                        <p class="exams-subtitle">YAZILI AKIŞ SİSTEMİ</p>
+                    </div>
+                    <!-- House icon for home -->
+                    <button onclick="showPage('home')" class="liquid-glass-btn"
+                        style="width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; padding: 0; border: none;">
+                        <i data-lucide="home" style="width: 20px; height: 20px;"></i>
+                    </button>
+                </div>
+
+                <!-- BOTTOM ROW -->
+                <div class="exams-header-bottom">
+                    <div class="exams-filter-container">
+                        <nav class="exams-filter-nav no-scrollbar">
+                            <button data-filter="aktif" class="hub-filter-btn active">
+                                <i data-lucide="calendar"></i> DEVAM EDEN
+                            </button>
+                            <button data-filter="girilen" class="hub-filter-btn">
+                                <i data-lucide="check-circle"></i> GİRİLEN
+                            </button>
+                        </nav>
+                    </div>
+                    <div class="exams-search-area">
+                        <i data-lucide="search"></i>
+                        <input id="examSearchInput" type="text" placeholder="Yazılılarda Ara..."
+                            class="exams-search-input" autocomplete="off">
+                    </div>
+                </div>
+
+                <!-- STATUS ROW -->
+                <div class="exams-status-row">
+                    <div class="status-left">YAZILI AKIŞI</div>
+                    <div class="status-line"></div>
+                    <div class="status-right">LIVE SYNC ACTIVE</div>
+                </div>
+            </div>
+        </header>
+
+        <main class="exams-container desktop-only">
+            <div id="examsGrid" class="card-grid">
+                <!-- Exams injected here -->
+            </div>
+        </main>
+
+        <div class="mobile-only">
+            <div id="mobileExamsGrid" class="mobile-modern-exam-list">
+                <!-- Mobile Exam cards rendered via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Exam Details Modal -->
+    <div id="examDetailsModal" class="modal-overlay" onclick="if(event.target === this) closeExamModal()">
+        <div class="hub-modal animate-fade">
+            <!-- Integrated Close Button -->
+            <button onclick="closeExamModal()" class="modal-close-btn">
+                <i data-lucide="x"></i>
+            </button>
+
+            <!-- Main Content (Centered) -->
+            <div class="modal-main-content">
+                <div class="flex items-center gap-3 mb-4 opacity-40 text-[10px] font-black uppercase tracking-widest">
+                    <span id="modalExamDotStatus" class="w-1.5 h-1.5 rounded-full"></span>
+                    <span id="modalExamStatusText">YÜKLENİYOR</span>
+                    <span class="mx-1">•</span>
+                    <span>YAZILI SINAV</span>
+                </div>
+
+                <h4 id="modalExamSubject" class="modal-subject-title"></h4>
+
+                <div class="space-y-6" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <!-- Info Grid -->
+                    <div class="grid grid-cols-2 gap-4"
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="modal-info-box">
+                            <label class="modal-label">Tarih</label>
+                            <p id="modalExamDate" class="modal-value"></p>
+                        </div>
+                        <div class="modal-info-box">
+                            <label class="modal-label">Ders Saati</label>
+                            <p id="modalExamLesson" class="modal-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="modal-info-box">
+                        <label class="modal-label">Konular</label>
+                        <p id="modalExamTopics" class="text-white/60 font-bold text-sm leading-relaxed"
+                            style="color: rgba(255,255,255,0.6); font-weight: 700; font-size: 0.875rem; line-height: 1.625;">
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4"
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="modal-info-box">
+                            <label class="modal-label">Sayfalar</label>
+                            <p id="modalExamPages" class="modal-value"></p>
+                        </div>
+                        <div class="modal-info-box">
+                            <label class="modal-label">Senaryo</label>
+                            <p id="modalExamScenario" class="modal-value"></p>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons / Links - FROSTED GLASS STYLE -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" style="display: grid; gap: 1rem;">
+                        <a id="modalMebLink" href="#" target="_blank" class="modal-link-btn frosted-green hidden">
+                            <i data-lucide="download-cloud"></i> MEB ÖRNEKLERİ
+                        </a>
+                        <a id="modalScenarioLink" href="#" target="_blank" class="modal-link-btn frosted-orange hidden">
+                            <i data-lucide="file-text"></i> SENARYO İNDİR
+                        </a>
+                    </div>
+
+                    <div id="modalTeacherNoteContainer" class="hidden modal-note-box">
+                        <label class="modal-label" style="color: rgba(255, 107, 43, 0.8);">Hoca Notu</label>
+                        <p id="modalTeacherNote" class="text-sm font-bold text-orange-500/80 leading-relaxed italic"
+                            style="font-size: 0.875rem; font-weight: 700; color: rgba(255, 107, 43, 0.8); line-height: 1.625; font-style: italic;">
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add Homework Modal -->
+    <div id="homeworkModal" class="modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center;">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                <h2 style="margin: 0;">Yeni Ödev Ekle</h2>
+                <div class="form-mode-selector" style="width: 180px; margin-bottom: 0;">
+                    <div id="modeGlider" class="mode-glider"></div>
+                    <button type="button" class="mode-toggle-btn active"
+                        onclick="switchHomeworkFormMode('detailed')">Ayrıntılı</button>
+                    <button type="button" class="mode-toggle-btn"
+                        onclick="switchHomeworkFormMode('quick')">Hızlı</button>
+                </div>
+            </div>
+
+            <form id="homeworkForm" onsubmit="addHomework(event)">
+                <!-- Detailed Form Section -->
+                <div id="detailedFormSection" class="form-section">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #888;">Ders</label>
+                        <input type="text" id="hwSubject"
+                            style="width: 100%; padding: 15px; border-radius: 12px; background: #222; border: 1px solid #333; color: #fff;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #888;">Açıklama</label>
+                        <textarea id="hwDescription"
+                            style="width: 100%; padding: 15px; border-radius: 12px; background: #222; border: 1px solid #333; color: #fff; height: 100px;"></textarea>
+                    </div>
+                    <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                        <div style="flex: 1;">
+                            <label style="display: block; margin-bottom: 8px; color: #888;">Veriliş
+                                Tarihi</label>
+                            <input type="date" id="hwGivenDate"
+                                style="width: 100%; padding: 15px; border-radius: 12px; background: #222; border: 1px solid #333; color: #fff;">
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="display: block; margin-bottom: 8px; color: #888;">Bitiş Tarihi</label>
+                            <input type="date" id="hwDueDate"
+                                style="width: 100%; padding: 15px; border-radius: 12px; background: #222; border: 1px solid #333; color: #fff;">
+                        </div>
+                    </div>
+                    <!-- Lesson Selection -->
+                    <div style="margin-bottom: 25px;">
+                        <label style="display: block; margin-bottom: 8px; color: #888;">Bitiş Dersi (Takvimde
+                            görünür)</label>
+                        <select id="hwLesson"
+                            style="width: 100%; padding: 15px; border-radius: 12px; background: #222; border: 1px solid #333; color: #fff; appearance: none; cursor: pointer;">
+                            <option value="1">1. Ders</option>
+                            <option value="2">2. Ders</option>
+                            <option value="3">3. Ders</option>
+                            <option value="4">4. Ders</option>
+                            <option value="5">5. Ders</option>
+                            <option value="6">6. Ders</option>
+                            <option value="7">7. Ders</option>
+                            <option value="8">8. Ders</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Quick Form Section -->
+                <div id="quickFormSection" class="form-section" style="display: none;">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #888;">Ders Adı</label>
+                        <input type="text" id="hwSubjectQuick" placeholder="Örn: Matematik"
+                            style="width: 100%; padding: 15px; border-radius: 12px; background: #222; border: 1px solid #333; color: #fff;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; color: #888;">Son Teslim
+                            Tarihi</label>
+                        <input type="date" id="hwDueDateQuick"
+                            style="width: 100%; padding: 15px; border-radius: 12px; background: #222; border: 1px solid #333; color: #fff;">
+                    </div>
+                    <div style="margin-bottom: 30px;">
+                        <label style="display: block; margin-bottom: 8px; color: #888;">Türü</label>
+                        <select id="hwTypeQuick"
+                            style="width: 100%; padding: 15px; border-radius: 12px; background: #222; border: 1px solid #333; color: #fff; appearance: none; cursor: pointer;">
+                            <option value="Normal">Normal Ödev</option>
+                            <option value="Kitap Özet Yazma">Kitap Özet Yazma</option>
+                            <option value="Proje Ödevi">Proje Ödevi</option>
+                            <option value="Performans Ödevi (A4)">Performans Ödevi (A4)</option>
+                            <option value="Getirilmesi Gereken">Getirilmesi Gereken</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 15px;">
+                    <button type="button" onclick="closeHomeworkModal()"
+                        style="flex: 1; padding: 15px; border-radius: 12px; background: #333; border: none; color: #fff; cursor: pointer;">İptal</button>
+                    <button type="submit"
+                        style="flex: 1; padding: 15px; border-radius: 12px; background: #fff; border: none; color: #000; font-weight: bold; cursor: pointer;">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin / Manage Exams Modal -->
+    <div id="adminPanelModal" class="modal-overlay" onclick="if(event.target === this) closeAdminModal()">
+        <div class="hub-modal animate-fade" style="max-width: 600px;">
+            <div class="p-8" style="padding: 2.5rem;">
+                <div class="form-header">
+                    <h2 id="adminModalTitle"
+                        style="margin: 0; color: #fff; font-weight: 900; text-transform: uppercase; font-size: 1.25rem; font-style: italic;">
+                        YENİ YAZILI EKLE</h2>
+                    <div class="form-mode-selector">
+                        <div id="examModeGlider" class="mode-glider"></div>
+                        <button type="button" class="mode-toggle-btn active"
+                            onclick="switchExamFormMode('detailed')">Ayrıntılı</button>
+                        <button type="button" class="mode-toggle-btn"
+                            onclick="switchExamFormMode('quick')">Hızlı</button>
+                    </div>
+                </div>
+
+                <form id="addExamForm" onsubmit="handleNewExam(event)">
+                    <input type="hidden" id="editExamId" value="">
+
+                    <!-- Quick Form Section -->
+                    <div id="quickExamSection" class="form-section" style="display: none;">
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label class="modal-label">DERS ADI</label>
+                                <input type="text" id="quickExamSubject" placeholder="Örn: Tarih" class="admin-input">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label class="modal-label">SINAV TARİHİ</label>
+                                <input type="date" id="quickExamDate" class="admin-input">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label class="modal-label">DERS SAATİ</label>
+                                <select id="quickExamLesson" class="admin-input">
+                                    <option value="1">1. Ders</option>
+                                    <option value="2">2. Ders</option>
+                                    <option value="3">3. Ders</option>
+                                    <option value="4">4. Ders</option>
+                                    <option value="5">5. Ders</option>
+                                    <option value="6">6. Ders</option>
+                                    <option value="7">7. Ders</option>
+                                    <option value="8">8. Ders</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Form Section -->
+                    <div id="detailedExamSection" class="form-section">
+                        <div class="grid grid-cols-2 gap-6 mb-6"
+                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label class="modal-label">DERS ADI</label>
+                                <input type="text" id="newExamSubject" placeholder="Örn: Tarih" class="admin-input">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label class="modal-label">SORUMLU ÖĞRETMEN</label>
+                                <input type="text" id="newExamTeacher" placeholder="Örn: Ahmet Yılmaz"
+                                    class="admin-input">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-6 mb-6"
+                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label class="modal-label">SINAV TARİHİ</label>
+                                <input type="date" id="newExamDate" class="admin-input">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label class="modal-label">DERS SAATİ</label>
+                                <select id="newExamLesson" class="admin-input">
+                                    <option value="1">1. Ders</option>
+                                    <option value="2">2. Ders</option>
+                                    <option value="3">3. Ders</option>
+                                    <option value="4">4. Ders</option>
+                                    <option value="5">5. Ders</option>
+                                    <option value="6">6. Ders</option>
+                                    <option value="7">7. Ders</option>
+                                    <option value="8">8. Ders</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-6 mb-6"
+                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label class="modal-label">SENARYO NO</label>
+                                <input type="text" id="newExamScenario" placeholder="Senaryo 1" class="admin-input">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label class="modal-label">KİTAP SAYFA ARALIĞI</label>
+                                <input type="text" id="newExamPages" placeholder="Örn: 24-56" class="admin-input">
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-2 mb-6"
+                            style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem;">
+                            <label class="modal-label">SORUMLU KONULAR (VİRGÜLLE AYIRIN)</label>
+                            <textarea id="newExamTopics" placeholder="Konu 1, Konu 2..."
+                                class="admin-textarea"></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-6 mb-6"
+                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label class="modal-label">SENARYO (LİNK)</label>
+                                <input type="text" id="newExamScenarioLink" placeholder="URL: https://..."
+                                    class="admin-input">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <label class="modal-label">MEB ÖRNEK (LİNK)</label>
+                                <input type="text" id="newExamMebLink" placeholder="URL: https://..."
+                                    class="admin-input">
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-2 mb-10"
+                            style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2.5rem;">
+                            <label class="modal-label">HOCA NOTLARI / HATIRLATICILAR</label>
+                            <textarea id="newExamTeacherNotes" placeholder="Buraya önemli notları ekleyin..."
+                                class="admin-textarea"></textarea>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 15px;">
+                        <button type="button" onclick="closeAdminModal()" class="admin-submit-btn"
+                            style="background: rgba(255,255,255,0.05); color: #fff; flex: 1;">İPTAL</button>
+                        <button type="submit" id="adminSubmitBtn" class="admin-submit-btn"
+                            style="flex: 2;">EKLE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Exam Notes List Modal -->
+    <div id="examNotesListModal" class="modal-overlay" onclick="if(event.target === this) closeExamNotesModal()">
+        <div class="hub-modal animate-fade" style="max-width: 1000px; height: 85vh;">
+            <div class="hub-modal-dual hub-h-full">
+                <div class="hub-sidebar hub-bg-black-40 hub-backdrop-blur-md">
+                    <div class="hub-logo-container">
+                        <div
+                            class="hub-w-14 hub-h-14 hub-rounded-2xl hub-bg-white hub-flex hub-items-center hub-justify-center hub-font-black hub-text-black hub-text-xl hub-logo-glow">
+                            9A
+                        </div>
+                    </div>
+
+                    <div class="hub-sidebar-content">
+                        <h2 class="hub-text-3xl hub-font-black hub-mb-2 hub-text-white hub-uppercase hub-italic hub-leading-tight"
+                            id="notesModalTitleSidebar">MATERYAL</h2>
+                        <p
+                            class="hub-text-[10px] hub-font-bold hub-text-white-30 hub-uppercase hub-tracking-[0.3em] hub-mb-10">
+                            SINAV KAYNAKLARI</p>
+
+                        <div class="hub-sidebar-info">
+                            <div class="hub-info-pill">
+                                <label class="modal-label">DERS</label>
+                                <span class="hub-text-lg hub-font-black hub-text-white hub-uppercase hub-italic"
+                                    id="notesModalSubjectName">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hub-mt-auto hub-pt-8">
+                        <p class="text-[8px] font-black text-white/10 uppercase tracking-[0.4em]">9A SMART BOARD FILE
+                            HUB</p>
+                    </div>
+                </div>
+
+                <!-- Main Content (List) -->
+                <div class="hub-main-content hub-bg-black-20 hub-flex hub-flex-col">
+                    <div class="hub-header hub-bg-black-40 hub-backdrop-blur-md">
+                        <div class="hub-header-left">
+                            <h2 class="hub-text-lg hub-font-black hub-text-white hub-uppercase hub-italic"
+                                style="font-size: 1.25rem;">PAYLAŞILANLAR
+                            </h2>
+                            <p class="hub-text-[10px] hub-font-bold hub-text-white-40 hub-uppercase hub-tracking-widest hub-mt-1"
+                                style="font-size: 9px;">
+                                Ders notları ve çalışma kağıtları</p>
+                        </div>
+
+                        <div class="hub-header-right">
+                            <div class="hub-modal-search-box">
+                                <i data-lucide="search"></i>
+                                <input type="text" id="noteSearchInput" placeholder="NOTLARDA ARA..."
+                                    class="hub-modal-search-input">
+                            </div>
+
+                            <button id="addNoteBtnInModal" class="hub-btn-primary">
+                                <i data-lucide="plus"></i> YÜKLE
+                            </button>
+
+                            <button onclick="closeExamNotesModal()" class="hub-btn-close">
+                                <i data-lucide="x"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Main Notes Grid -->
+                    <div class="hub-flex-1 hub-p-8 hub-overflow-y-auto">
+                        <script>
+                            window.onerror = function (msg, url, lineNo) {
+                                console.error('🚀 System Error:', msg, 'at', lineNo);
+                                return false;
+                            };
+                        </script>
+                        <div id="examNotesContainer" class="hub-grid hub-grid-cols-1 md:hub-grid-cols-2 hub-gap-8">
+                            <!-- Notes will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Note Upload Modal -->
+        <div id="examNoteUploadModal" class="modal-overlay" style="z-index: 2100;">
+            <div class="hub-modal animate-fade" style="max-width: 900px;">
+                <div class="hub-modal-dual">
+                    <!-- Sidebar -->
+                    <div class="hub-sidebar bg-black-40 backdrop-blur-md">
+                        <div
+                            class="hub-w-14 hub-h-14 hub-rounded-2xl hub-bg-white hub-flex hub-items-center hub-justify-center hub-font-black hub-text-black hub-text-xl hub-mb-12">
+                            AT</div>
+                        <h2
+                            class="hub-text-3xl hub-font-black hub-mb-8 hub-text-white hub-uppercase hub-italic hub-leading-tight">
+                            NOT<br /><span class="text-emerald">YÜKLE</span></h2>
+                        <div class="bg-white/5 border border-white-10 rounded-2xl p-6 text-white-40 flex flex-col gap-4 font-bold uppercase tracking-widest"
+                            style="font-size: 9px;">
+                            <p class="flex items-center gap-2"><span class="rounded-full bg-emerald"
+                                    style="width: 6px; height: 6px;"></span> TUR: MATERYAL</p>
+                            <p class="flex items-center gap-2"><span class="rounded-full bg-emerald"
+                                    style="width: 6px; height: 6px;"></span> SINIR: 100MB</p>
+                        </div>
+                        <div class="hub-mt-auto hub-pt-8">
+                            <p class="text-white-10 font-black uppercase tracking-widest" style="font-size: 8px;">9A
+                                SMART
+                                BOARD FILE HUB</p>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="hub-main-content">
+                        <div class="hub-flex hub-justify-between hub-items-center hub-mb-10">
+                            <h3 class="hub-text-xl hub-font-black hub-text-white hub-uppercase hub-italic">DEPOYA AKTAR
+                            </h3>
+                            <button onclick="closeNoteUploadModal()" class="hub-btn-close">
+                                <i data-lucide="x"></i>
+                            </button>
+                        </div>
+
+                        <form id="uploadNoteForm" onsubmit="handleNoteUpload(event)">
+                            <input type="hidden" id="uploadNoteExamId">
+                            <div class="hub-flex hub-flex-col hub-gap-6">
+                                <div class="hub-info-pill" style="background: rgba(255,255,255,0.02); padding: 1.5rem;">
+                                    <label class="modal-label">KİMLİK</label>
+                                    <input type="text" id="noteUploaderName" placeholder="Adınız Soyadınız" required
+                                        class="hub-w-full hub-bg-transparent hub-border-none hub-text-white hub-font-bold hub-outline-none"
+                                        style="font-size: 14px;">
+                                </div>
+
+                                <div class="hub-info-pill"
+                                    style="background: rgba(255,255,255,0.02); padding: 1.5rem; position: relative; overflow: hidden;">
+                                    <label class="modal-label">DOSYA SEÇİMİ (ÇOKLU DESTEKLENİR)</label>
+                                    <div class="hub-flex hub-items-center hub-gap-4">
+                                        <div class="hub-flex-1">
+                                            <input type="file" id="noteFile" multiple required class="hub-hidden"
+                                                onchange="document.getElementById('fileStatusText').innerText = this.files.length + ' Dosya Seçildi'">
+                                            <button type="button" onclick="document.getElementById('noteFile').click()"
+                                                class="hub-btn-sub">
+                                                GÖZ AT
+                                            </button>
+                                        </div>
+                                        <span id="fileStatusText"
+                                            class="hub-text-[10px] hub-font-black hub-text-white-20 hub-uppercase hub-tracking-widest">Dosya
+                                            Seçilmedi</span>
+                                    </div>
+                                </div>
+
+                                <!-- Klasör Koruma Ayarları -->
+                                <div class="hub-info-pill"
+                                    style="background: rgba(255,255,255,0.02); padding: 1.25rem;">
+                                    <div class="hub-flex hub-items-center hub-justify-between">
+                                        <div>
+                                            <label class="modal-label" style="margin-bottom: 2px;">KLASÖR
+                                                ERİŞİMİ</label>
+                                            <p class="hub-text-[9px] hub-font-bold hub-text-white-40">Herkes bu klasöre
+                                                not ekleyebilir mi?</p>
+                                        </div>
+                                        <label class="hub-switch">
+                                            <input type="checkbox" id="noteIsPublic" checked
+                                                onchange="document.getElementById('folderPassContainer').style.display = this.checked ? 'none' : 'block'">
+                                            <span class="hub-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div id="folderPassContainer"
+                                        style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05);">
+                                        <label class="modal-label">KLASÖR ŞİFRESİ BELİRLE</label>
+                                        <input type="password" id="folderPassword" placeholder="Şifre belirleyin"
+                                            class="hub-w-full hub-bg-transparent hub-border-none hub-text-white hub-font-bold hub-outline-none"
+                                            style="font-size: 14px;">
+                                    </div>
+                                </div>
+
+                                <!-- Sayfa sayısı otomatik algılanacak -->
+
+                                <!-- Progress List -->
+                                <div id="uploadStatusContainer" class="hub-hidden hub-mt-4">
+                                    <div id="uploadProgressList" class="hub-flex hub-flex-col hub-gap-2">
+                                        <!-- Dynamic progress items -->
+                                    </div>
+                                </div>
+
+                                <div class="hub-flex hub-gap-4 hub-mt-8">
+                                    <button type="button" onclick="closeNoteUploadModal()"
+                                        class="hub-flex-1 hub-btn-ghost">İPTAL ET</button>
+                                    <button type="submit" id="submitUploadBtn" class="hub-flex-1 hub-btn-premium"
+                                        style="flex: 2;">BULUTA AKTAR</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Homework Detail Modal -->
+        <div id="homeworkDetailModal" class="modal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center;">
+            <div class="modal-content"
+                style="background: #1a1a1a; padding: 40px; border-radius: 30px; width: 500px; border: 1px solid rgba(255,255,255,0.1);">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px;">
+                    <h2 id="detailSubject" style="font-size: 28px;"></h2>
+                    <div style="display: flex; gap: 10px;">
+                        <button id="editHomeworkBtn"
+                            style="background: rgba(52, 152, 219, 0.1); border: 1px solid rgba(52, 152, 219, 0.2); color: #3498db; padding: 8px 15px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 600;">Düzenle</button>
+                        <button id="deleteHomeworkBtn"
+                            style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444; padding: 8px 15px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 600;">Ödevi
+                            Sil</button>
+                    </div>
+                </div>
+                <p id="detailDescription" style="color: #ddd; line-height: 1.6; margin-bottom: 30px; font-size: 16px;">
+                </p>
+                <div
+                    style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                    <div>
+                        <label style="display: block; font-size: 12px; color: #888; margin-bottom: 5px;">VERİLİŞ
+                            TARİHİ</label>
+                        <div id="detailGivenDate" style="font-weight: 600;"></div>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 12px; color: #888; margin-bottom: 5px;">BİTİŞ
+                            TARİHİ</label>
+                        <div id="detailDueDate" style="font-weight: 600; color: #ef4444;"></div>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 12px; color: #888; margin-bottom: 5px;">DERS</label>
+                        <div id="detailLesson" style="font-weight: 600;"></div>
+                    </div>
+                </div>
+                <button onclick="closeHomeworkDetailModal()"
+                    style="width: 100%; padding: 15px; border-radius: 12px; background: #fff; border: none; color: #000; font-weight: bold; cursor: pointer;">Kapat</button>
+            </div>
+        </div>
+
+        <!-- Today's Homework Modal -->
+        <div id="todayHomeworkModal" class="modal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); z-index: 1100; justify-content: center; align-items: center;">
+            <div class="modal-content"
+                style="background: #111; padding: 40px; border-radius: 35px; width: 550px; border: 1px solid rgba(255,255,255,0.08); max-height: 80vh; display: flex; flex-direction: column;">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-shrink: 0;">
+                    <div>
+                        <h2 style="font-size: 24px; margin-bottom: 5px;">Bugünkü Ödevler</h2>
+                        <p id="todayDate" style="color: #888; font-size: 14px;"></p>
+                    </div>
+                    <button onclick="closeTodayHomeworkModal()"
+                        style="background: rgba(255,255,255,0.05); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 20px;">×</button>
+                </div>
+                <div id="todayHomeworkList" style="overflow-y: auto; flex: 1; padding-right: 5px;">
+                    <!-- Today's homework will be listed here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Tomorrow's Schedule Modal (Liquid Glass Style) -->
+        <div id="tomorrowScheduleModal" class="modal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%); z-index: 2000; justify-content: center; align-items: center; padding: 20px;">
+            <div class="modal-content animate-fade-in"
+                style="background: rgba(20, 20, 20, 0.4); padding: 40px; border-radius: 40px; width: 100%; max-width: 550px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 40px 100px rgba(0,0,0,0.6), inset 0 0 40px rgba(255,255,255,0.02); position: relative; overflow: hidden;">
+                <!-- Rim Highlight -->
+                <div
+                    style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);">
+                </div>
+
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; position: relative; z-index: 1;">
+                    <div>
+                        <p
+                            style="color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px;">
+                            GELECEK PROGRAM</p>
+                        <h2 id="tomorrowDayHeader"
+                            style="font-size: 32px; font-weight: 900; font-style: italic; letter-spacing: -1px;">YARIN
+                        </h2>
+                    </div>
+                    <button onclick="closeTomorrowScheduleModal()"
+                        style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 45px; height: 45px; border-radius: 20px; cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center; transition: all 0.3s;">
+                        <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+                    </button>
+                </div>
+
+                <div id="tomorrowScheduleList"
+                    style="overflow-y: auto; max-height: 55vh; padding-right: 5px; display: flex; flex-direction: column; gap: 15px; position: relative; z-index: 1;">
+                    <!-- Tomorrow's schedule will be listed here -->
+                </div>
+
+                <div
+                    style="margin-top: 30px; text-align: center; opacity: 0.3; font-size: 10px; font-weight: 800; letter-spacing: 1px;">
+                    9A AKILLI TAHTA SİSTEMİ
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Add Homework Modal -->
+        <div id="homeworkModal" class="modal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 1100; justify-content: center; align-items: center;">
+            <div class="modal-content premium">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                    <h2 style="margin: 0; font-size: 24px;">Yeni Ödev Ekle</h2>
+                    <button onclick="closeHomeworkModal()"
+                        style="background: transparent; border: none; color: #666; cursor: pointer;">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+
+                <!-- Mode Toggle -->
+                <div class="mode-toggle"
+                    style="display: flex; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 12px; margin-bottom: 25px; position: relative; overflow: hidden;">
+                    <button type="button" class="mode-toggle-btn active" onclick="switchHomeworkFormMode('detailed')"
+                        style="flex: 1; padding: 10px; border-radius: 8px; border: none; background: transparent; color: #fff; cursor: pointer; font-size: 13px; font-weight: 600; position: relative; z-index: 1; transition: all 0.3s;">Detaylı</button>
+                    <button type="button" class="mode-toggle-btn" onclick="switchHomeworkFormMode('quick')"
+                        style="flex: 1; padding: 10px; border-radius: 8px; border: none; background: transparent; color: #888; cursor: pointer; font-size: 13px; font-weight: 600; position: relative; z-index: 1; transition: all 0.3s;">Hızlı</button>
+                    <div id="modeGlider"
+                        style="position: absolute; top: 5px; left: 5px; width: calc(50% - 5px); height: calc(100% - 10px); background: #222; border-radius: 8px; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 0;">
+                    </div>
+                </div>
+
+                <form id="homeworkForm" onsubmit="addHomework(event)">
+                    <!-- Detailed Form -->
+                    <div id="detailedFormSection">
+                        <div class="form-group">
+                            <label>Ödev Konusu</label>
+                            <input type="text" id="hwSubject" required placeholder="Örn: 2. Dereceden Denklemler">
+                        </div>
+                        <div class="form-group">
+                            <label>Açıklama</label>
+                            <textarea id="hwDescription" required rows="3"
+                                placeholder="Örn: Sayfa 45-56 arası tüm sorular"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Veriliş Tarihi</label>
+                                <input type="date" id="hwGivenDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Son Teslim</label>
+                                <input type="date" id="hwDueDate" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Teslim Dersi</label>
+                            <select id="hwLesson">
+                                <option value="1">1. Ders</option>
+                                <option value="2">2. Ders</option>
+                                <option value="3">3. Ders</option>
+                                <option value="4">4. Ders</option>
+                                <option value="5">5. Ders</option>
+                                <option value="6">6. Ders</option>
+                                <option value="7">7. Ders</option>
+                                <option value="8">8. Ders</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Quick Form -->
+                    <div id="quickFormSection" style="display: none;">
+                        <div class="form-group">
+                            <label>Ne Ödevi?</label>
+                            <input type="text" id="hwSubjectQuick" placeholder="Örn: Tarih Özeti">
+                        </div>
+                        <div class="form-group">
+                            <label>Hangi Güne?</label>
+                            <input type="date" id="hwDueDateQuick">
+                        </div>
+                        <div class="form-group">
+                            <label>Ödev Tipi</label>
+                            <select id="hwTypeQuick">
+                                <option value="Alıştırma">Alıştırma</option>
+                                <option value="Proje">Proje</option>
+                                <option value="Okuma">Okuma</option>
+                                <option value="Ezber">Ezber</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <button type="submit" class="btn-primary"
+                            style="width: 100%; padding: 16px; font-size: 16px;">Ödevi Sisteme İşle</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- Edit Homework Modal -->
+        <div id="editHomeworkModal" class="modal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 1100; justify-content: center; align-items: center;">
+            <div class="modal-content premium">
+                <h2>Ödevi Düzenle</h2>
+                <form id="editHomeworkForm">
+                    <input type="hidden" id="editHwId">
+                    <div class="form-group">
+                        <label>Konu</label>
+                        <input type="text" id="editHwSubject" required placeholder="Örn: Matematik">
+                    </div>
+                    <div class="form-group">
+                        <label>Açıklama</label>
+                        <textarea id="editHwDescription" required rows="3" placeholder="Ödev detayları..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Veriliş Tarihi</label>
+                            <input type="date" id="editHwGivenDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Bitiş Tarihi</label>
+                            <input type="date" id="editHwDueDate" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ders Saati</label>
+                        <select id="editHwLesson">
+                            <option value="1">1. Ders</option>
+                            <option value="2">2. Ders</option>
+                            <option value="3">3. Ders</option>
+                            <option value="4">4. Ders</option>
+                            <option value="5">5. Ders</option>
+                            <option value="6">6. Ders</option>
+                            <option value="7">7. Ders</option>
+                            <option value="8">8. Ders</option>
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button type="submit" class="btn-primary">Güncelle</button>
+                        <button type="button" onclick="closeEditHomeworkModal()" class="btn-secondary">Vazgeç</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- AI Admin Password Modal -->
+        <div id="adminAuthModal" class="modal premium-modal-overlay"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; justify-content: center; align-items: center;">
+            <div class="modal-content premium-modal-content" style="width: 350px; text-align: center;">
+                <div
+                    style="background: rgba(255,255,255,0.05); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                    <i data-lucide="lock" style="color: #fff; width: 24px;"></i>
+                </div>
+                <h3 style="margin-bottom: 20px; font-size: 22px;">Yönetici Girişi</h3>
+                <input type="password" id="adminPasswordInput" placeholder="Şifre" class="premium-input"
+                    style="margin-bottom: 25px;">
+                <button onclick="verifyAdminPassword()"
+                    style="width: 100%; background: #fff; color: #000; padding: 15px; border: none; border-radius: 14px; font-weight: bold; cursor: pointer; font-size: 16px; margin-bottom: 10px;">Giriş
+                    Yap</button>
+                <button onclick="closeAdminAuthModal()"
+                    style="background: transparent; color: #666; padding: 10px; border: none; cursor: pointer; font-size: 14px;">Vazgeç</button>
+            </div>
+        </div>
+
+        <!-- Add Notebook Modal -->
+        <div id="addNotebookModal" class="modal premium-modal-overlay"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2001; justify-content: center; align-items: center;">
+            <div class="modal-content premium-modal-content" style="width: 500px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                    <h2 style="font-size: 24px;">Yeni Not Defteri Ekle</h2>
+                </div>
+                <form onsubmit="addNewNotebook(event)">
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="display: block; color: #888; margin-bottom: 10px; font-size: 13px;">BAŞLIK</label>
+                        <input type="text" id="newNbTitle" required placeholder="Örn: Tarih Notları"
+                            class="premium-input">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label
+                            style="display: block; color: #888; margin-bottom: 10px; font-size: 13px;">AÇIKLAMA</label>
+                        <input type="text" id="newNbDesc" placeholder="Kısa açıklama..." class="premium-input">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 30px;">
+                        <label style="display: block; color: #888; margin-bottom: 10px; font-size: 13px;">NOTEBOOKLM
+                            LINKI</label>
+                        <input type="url" id="newNbLink" required placeholder="https://notebooklm.google.com/..."
+                            class="premium-input">
+                    </div>
+                    <div style="display: flex; gap: 15px;">
+                        <button type="button" onclick="closeAddNotebookModal()"
+                            style="flex:1; background: rgba(255,255,255,0.05); color: #fff; border: none; padding: 16px; border-radius: 14px; cursor: pointer; font-weight: 600;">İptal</button>
+                        <button type="submit"
+                            style="flex:1; background: #fff; color: #000; border: none; padding: 16px; border-radius: 14px; font-weight: bold; cursor: pointer;">Oluştur</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Edit Notebook Modal -->
+        <div id="editNotebookModal" class="modal premium-modal-overlay"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2005; justify-content: center; align-items: center;">
+            <div class="modal-content premium-modal-content" style="width: 500px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                    <h2 style="font-size: 24px;">Not Defterini Düzenle</h2>
+                </div>
+                <form id="editNotebookForm" onsubmit="handleUpdateNotebook(event)">
+                    <input type="hidden" id="editNbId">
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="display: block; color: #888; margin-bottom: 10px; font-size: 13px;">BAŞLIK</label>
+                        <input type="text" id="editNbTitle" required placeholder="Örn: Tarih Notları"
+                            class="premium-input">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label
+                            style="display: block; color: #888; margin-bottom: 10px; font-size: 13px;">AÇIKLAMA</label>
+                        <input type="text" id="editNbDesc" placeholder="Kısa açıklama..." class="premium-input">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 30px;">
+                        <label style="display: block; color: #888; margin-bottom: 10px; font-size: 13px;">NOTEBOOKLM
+                            LINKI</label>
+                        <input type="url" id="editNbLink" required placeholder="https://notebooklm.google.com/..."
+                            class="premium-input">
+                    </div>
+                    <div style="display: flex; gap: 15px;">
+                        <button type="button" onclick="closeEditNotebookModal()"
+                            style="flex:1; background: rgba(255,255,255,0.05); color: #fff; border: none; padding: 16px; border-radius: 14px; cursor: pointer; font-weight: 600;">İptal</button>
+                        <button type="submit"
+                            style="flex:1; background: #4caf50; color: #fff; border: none; padding: 16px; border-radius: 14px; font-weight: bold; cursor: pointer;">Güncelle</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Admin Context Modal -->
+        <div id="adminContextModal" class="modal premium-modal-overlay"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2002; justify-content: center; align-items: center;">
+            <div class="modal-content premium-modal-content" style="width: 500px;">
+                <h2 style="font-size: 24px; margin-bottom: 20px;">Anlık Bildirim (AI Öncelikli Bilgi)</h2>
+                <p style="color: #666; font-size: 13px; margin-bottom: 20px;">Buraya girdiğiniz not, AI asistanının en
+                    öncelikli bilgisi olacaktır. (Örn: "Yarın ilk ders boş", "Bugün kantin kapalı")</p>
+
+                <textarea id="adminContextInput" rows="4" class="premium-input"
+                    style="height: auto; resize: vertical; margin-bottom: 20px;"
+                    placeholder="AI için anlık bilgi giriniz..."></textarea>
+
+                <div style="display: flex; gap: 15px;">
+                    <button onclick="closeAdminContextModal()"
+                        style="flex:1; background: rgba(255,255,255,0.05); color: #fff; border: none; padding: 16px; border-radius: 14px; cursor: pointer; font-weight: 600;">İptal</button>
+                    <button onclick="saveAdminContext()"
+                        style="flex:1; background: #ff9800; color: #fff; border: none; padding: 16px; border-radius: 14px; font-weight: bold; cursor: pointer;">Kaydet</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Back Button (Liquid Glass) -->
+        <div id="mobileBackBtn" class="mobile-back-btn" onclick="showPage('home')">
+            <i data-lucide="chevron-left"></i>
+            <span>Geri Dön</span>
+        </div>
+
+        <!-- Mobile Bottom Navigation (Commented Out) -->
+        <!-- 
+        <nav class="mobile-app-dock">
+            <a onclick="showPage('home')" id="mobile-nav-home" class="dock-item active">
+                <i data-lucide="home"></i>
+                <span>HOME</span>
+            </a>
+            <a onclick="showPage('homework')" id="mobile-nav-homework" class="dock-item">
+                <i data-lucide="clipboard-list"></i>
+                <span>ÖDEV</span>
+            </a>
+            <a onclick="showPage('exams')" id="mobile-nav-exams" class="dock-item">
+                <i data-lucide="edit-3"></i>
+                <span>SINAV</span>
+            </a>
+            <a onclick="showPage('hub')" id="mobile-nav-hub" class="dock-item">
+                <i data-lucide="compass"></i>
+                <span>HUB</span>
+            </a>
+            <a onclick="showPage('ai')" id="mobile-nav-ai" class="dock-item">
+                <i data-lucide="message-square"></i>
+                <span>SENA</span>
+            </a>
+        </nav>
+        -->
+
+        <!-- Mobile Back Button (Liquid Glass) -->
+        <button id="mobileBackBtn" class="mobile-back-btn" onclick="showPage('home')">
+            <i data-lucide="chevron-left"></i> GERİ DÖN
+        </button>
+
+        <script src="js/data.js"></script>
+        <script src="js/notebooks_sync.js"></script>
+        <script src="js/homework_sync_v2.js"></script>
+        <script src="js/exams_sync.js"></script>
+        <script src="js/exam_notes_sync.js"></script>
+        <script src="js/exams_core.js"></script>
+        <script src="js/schedule.js"></script>
+        <script src="js/gemini_service.js"></script>
+        <script src="js/ai_manager.js?v=2.1"></script>
+        <script src="js/homework.js"></script>
+        <script src="js/shortcuts_sync.js"></script>
+        <script src="js/hub_core.js"></script>
+        <!-- === SHORTCUTS SYSTEM (Self-contained) === -->
+        <style>
+            .shortcuts-row {
+                margin-top: 15px;
+                display: flex;
+                justify-content: center;
+                animation: slideUp 0.8s ease forwards 0.1s;
+                opacity: 0;
+            }
+        </style>
+
+        <!-- Shortcuts Popup Overlay -->
+        <div id="shortcutsPopup"
+            style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.94);backdrop-filter:blur(50px);-webkit-backdrop-filter:blur(50px);z-index:9999;justify-content:center;align-items:center;opacity:0;transition:opacity 0.4s ease;">
+            <div id="shortcutsPopupBox"
+                style="background:#0a0a0c;border:2px solid rgba(255,255,255,0.2);border-radius:32px;width:92%;max-width:500px;padding:40px;box-shadow:0 40px 120px rgba(0,0,0,1);transform:scale(0.9) translateY(40px);opacity:0;transition:all 0.5s cubic-bezier(0.16,1,0.3,1);">
+                <div
+                    style="display:flex;justify-content:center;align-items:center;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <h3 style="font-size:17px;font-weight:800;color:#fff;margin:0;letter-spacing:0.5px;">⚡ Hızlı
+                        Kısayollar</h3>
+                </div>
+                <div id="scGrid"
+                    style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;"></div>
+            </div>
+        </div>
+
+        <!-- Add Shortcut Form Popup -->
+        <div id="scFormPopup"
+            style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);backdrop-filter:blur(25px);-webkit-backdrop-filter:blur(25px);z-index:10000;justify-content:center;align-items:center;opacity:0;transition:opacity 0.4s ease;">
+            <div id="scFormBox"
+                style="background:#0a0a0c;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:32px;width:90%;max-width:400px;transform:scale(0.9) translateY(20px);opacity:0;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);box-shadow: 0 50px 100px rgba(0,0,0,0.9);">
+                <h3 style="color:#fff;margin:0 0 20px;font-size:18px;font-weight:800;letter-spacing:0.5px;">Yeni Kısayol
+                    Ekle</h3>
+                <div style="margin-bottom:15px;">
+                    <label
+                        style="color:rgba(255,255,255,0.5);font-size:12px;font-weight:600;display:block;margin-bottom:8px;margin-left:4px;">Kısayol
+                        İsmi</label>
+                    <input type="text" id="scName" placeholder="Örn: YouTube"
+                        style="width:100%;padding:16px;border-radius:14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;outline:none;font-size:14px;box-sizing:border-box;transition:all 0.3s;border:1px solid rgba(255,255,255,0.1);">
+                </div>
+                <div style="margin-bottom:20px;">
+                    <label
+                        style="color:rgba(255,255,255,0.5);font-size:12px;font-weight:600;display:block;margin-bottom:8px;margin-left:4px;">Web
+                        Adresi (URL)</label>
+                    <input type="text" id="scUrl" placeholder="Örn: youtube.com"
+                        style="width:100%;padding:16px;border-radius:14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;outline:none;font-size:14px;box-sizing:border-box;transition:all 0.3s;border:1px solid rgba(255,255,255,0.1);">
+                </div>
+                <div style="display:flex;gap:12px;">
+                    <button id="scCancelBtn"
+                        style="flex:1;padding:16px;border-radius:14px;border:none;cursor:pointer;font-weight:700;font-size:14px;background:rgba(255,255,255,0.08);color:#fff;transition:all 0.3s;">İptal</button>
+                    <button id="scSaveBtn"
+                        style="flex:1;padding:16px;border-radius:14px;border:none;cursor:pointer;font-weight:800;font-size:14px;background:#fff;color:#000;transition:all 0.33s;box-shadow: 0 4px 15px rgba(255,255,255,0.2);">Kaydet</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var btn = document.getElementById('shortcutsBtn');
+                var popup = document.getElementById('shortcutsPopup');
+                var popupBox = document.getElementById('shortcutsPopupBox');
+                var formPopup = document.getElementById('scFormPopup');
+                var formBox = document.getElementById('scFormBox');
+                var grid = document.getElementById('scGrid');
+                var addBtn = document.getElementById('scAddBtn');
+                var cancelBtn = document.getElementById('scCancelBtn');
+                var saveBtn = document.getElementById('scSaveBtn');
+                var shortcuts = [];
+                var shortcutsOpen = false;
+
+                // Move popups to body to escape parent stacking contexts
+                if (popup) document.body.appendChild(popup);
+                if (formPopup) document.body.appendChild(formPopup);
+
+                console.log('🔧 Shortcuts init: btn=', !!btn, 'popup=', !!popup, 'addBtn=', !!addBtn, 'formPopup=', !!formPopup);
+
+                function openShortcutsPopup() {
+                    shortcutsOpen = true;
+                    document.body.classList.add('shortcuts-active');
+                    if (addBtn) addBtn.style.display = 'flex';
+                    popup.style.display = 'flex';
+                    void popup.offsetHeight;
+                    popup.style.opacity = '1';
+                    popupBox.style.transform = 'scale(1) translateY(0)';
+                    popupBox.style.opacity = '1';
+                }
+
+                function closeShortcutsPopup() {
+                    shortcutsOpen = false;
+                    document.body.classList.remove('shortcuts-active');
+                    if (addBtn) addBtn.style.display = 'none';
+                    popup.style.opacity = '0';
+                    popupBox.style.transform = 'scale(0.9) translateY(20px)';
+                    popupBox.style.opacity = '0';
+                    setTimeout(function () { popup.style.display = 'none'; }, 400);
+                }
+
+                function openFormPopup() {
+                    console.log('📝 Opening form popup');
+                    formPopup.style.display = 'flex';
+                    void formPopup.offsetHeight;
+                    formPopup.style.opacity = '1';
+                    formBox.style.transform = 'scale(1) translateY(0)';
+                    formBox.style.opacity = '1';
+                }
+
+                function closeFormPopup() {
+                    formPopup.style.opacity = '0';
+                    formBox.style.transform = 'scale(0.9) translateY(20px)';
+                    formBox.style.opacity = '0';
+                    setTimeout(function () { formPopup.style.display = 'none'; }, 400);
+                }
+
+                function render() {
+                    if (!grid) return;
+                    var html = '';
+                    for (var i = 0; i < shortcuts.length; i++) {
+                        var s = shortcuts[i];
+                        html += '<a href="' + s.url + '" target="_blank" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);padding:16px 8px;border-radius:16px;text-align:center;transition:all 0.3s ease;text-decoration:none;color:#fff;position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;">';
+                        html += '<button data-del-id="' + s.id + '" style="position:absolute;top:5px;right:5px;width:20px;height:20px;border-radius:50%;background:rgba(231,76,60,0.2);border:none;color:#e74c3c;font-size:10px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:10;">&#10005;</button>';
+                        html += '<div style="width:44px;height:44px;background:linear-gradient(135deg,rgba(99,102,241,0.25),rgba(168,85,247,0.2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#c4b5fd;">' + s.name.charAt(0).toUpperCase() + '</div>';
+                        html += '<span style="font-size:11px;font-weight:600;opacity:0.7;">' + s.name + '</span></a>';
+                    }
+                    grid.innerHTML = html;
+                    var items = grid.querySelectorAll('a');
+                    for (var j = 0; j < items.length; j++) {
+                        (function (item) {
+                            var db = item.querySelector('[data-del-id]');
+                            item.onmouseenter = function () { if (db) db.style.display = 'flex'; item.style.background = 'rgba(255,255,255,0.08)'; };
+                            item.onmouseleave = function () { if (db) db.style.display = 'none'; item.style.background = 'rgba(255,255,255,0.03)'; };
+                            if (db) {
+                                db.onclick = async function (e) {
+                                    e.preventDefault(); e.stopPropagation();
+                                    var sid = this.getAttribute('data-del-id');
+                                    if (confirm('Silmek istediğine emin misin?')) {
+                                        try { await window.ShortcutsSync.deleteShortcut(sid); shortcuts = shortcuts.filter(function (sh) { return String(sh.id) !== String(sid); }); render(); } catch (err) { alert('Silme başarısız!'); }
+                                    }
+                                };
+                            }
+                        })(items[j]);
+                    }
+                }
+
+                // Shortcuts toggle
+                if (btn) {
+                    btn.onclick = function (e) {
+                        e.preventDefault(); e.stopPropagation();
+                        if (shortcutsOpen) { closeShortcutsPopup(); } else { openShortcutsPopup(); }
+                    };
+                }
+
+                // Close shortcuts on backdrop
+                if (popup) {
+                    popup.onclick = function (e) { if (e.target === popup) closeShortcutsPopup(); };
+                }
+
+                // ADD BUTTON -> opens form
+                if (addBtn) {
+                    addBtn.onclick = function (e) {
+                        e.preventDefault(); e.stopPropagation();
+                        console.log('➕ Add button clicked!');
+                        openFormPopup();
+                    };
+                } else {
+                    console.error('❌ scAddBtn not found!');
+                }
+
+                // Cancel form
+                if (cancelBtn) { cancelBtn.onclick = function () { closeFormPopup(); }; }
+
+                // Close form on backdrop
+                if (formPopup) { formPopup.onclick = function (e) { if (e.target === formPopup) closeFormPopup(); }; }
+
+                // Save
+                if (saveBtn) {
+                    saveBtn.onclick = async function () {
+                        var n = document.getElementById('scName').value.trim();
+                        var u = document.getElementById('scUrl').value.trim();
+                        if (n && u) {
+                            try {
+                                var fullUrl = u.indexOf('http') === 0 ? u : 'https://' + u;
+                                var newSc = await window.ShortcutsSync.addShortcut(n, fullUrl);
+                                shortcuts.push(newSc);
+                                render();
+                                closeFormPopup();
+                                document.getElementById('scName').value = '';
+                                document.getElementById('scUrl').value = '';
+                            } catch (err) { alert('Kısayol kaydedilemedi!'); }
+                        }
+                    };
+                }
+
+                // Init
+                (async function () {
+                    try { shortcuts = await window.ShortcutsSync.fetchAll(); } catch (e) { shortcuts = []; }
+                    render();
+                })();
+            })();
+        </script>
+        <script src="js/app.js"></script>
+</body>
+
+</html>
