@@ -1,0 +1,155 @@
+/* Liquid Glass Component System */
+.liquid-glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+.liquid-glass-btn {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(15px) saturate(150%);
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff !important;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3),
+        inset 0 0 15px rgba(255, 255, 255, 0.05);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.liquid-glass-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.liquid-glass-btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 15px 45px 0 rgba(0, 0, 0, 0.5),
+        inset 0 0 25px rgba(255, 255, 255, 0.1);
+}
+
+.liquid-glass-btn:hover::before {
+    opacity: 1;
+}
+
+.liquid-glass-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Native App Dock (Premium Liquid Glass) */
+.mobile-app-dock {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 10, 15, 0.7);
+    backdrop-filter: blur(35px) saturate(200%);
+    -webkit-backdrop-filter: blur(35px) saturate(200%);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 10px calc(env(safe-area-inset-bottom, 0px) + 12px) 10px;
+    z-index: 10000;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Reflection Highlight at the top of the dock */
+.mobile-app-dock::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+}
+
+.dock-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    padding: 6px 0;
+    cursor: pointer;
+}
+
+.dock-item i {
+    width: 22px;
+    height: 22px;
+    stroke-width: 2.2px;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dock-item span {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    transition: color 0.3s;
+}
+
+/* Active State with Glow */
+.dock-item.active {
+    color: #fff;
+}
+
+.dock-item.active i {
+    transform: translateY(-4px) scale(1.1);
+}
+
+.dock-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+/* For Desktop: Hide the app dock */
+@media (min-width: 769px) {
+    .mobile-app-dock {
+        display: none !important;
+    }
+}
+
+/* Adjust original site content to not be hidden by dock */
+@media (max-width: 768px) {
+
+    #homePage,
+    #schedulePage,
+    #homeworkPage,
+    #examsPage,
+    #hubPage,
+    #aiPage {
+        padding-bottom: 120px !important;
+    }
+}

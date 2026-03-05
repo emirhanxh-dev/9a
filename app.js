@@ -1,0 +1,219 @@
+function updateCurrentTime() {
+    const now = new Date();
+
+    // Desktop Time: HH:mm
+    const timeStr = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+    // Desktop Date: D MMMM YYYY (Matches screenshot style)
+    const dateOptions = { day: 'numeric', month: 'long', weekday: 'long' };
+    const dateStr = now.toLocaleDateString('tr-TR', dateOptions);
+
+    const timeEl = document.getElementById('currentTime');
+    const dateEl = document.getElementById('currentDate');
+    const mobileDateEl = document.getElementById('mobileDateDisplay');
+
+    if (timeEl) timeEl.textContent = timeStr;
+    if (dateEl) dateEl.textContent = dateStr;
+    // Mobile stays uppercase as per previous design unless specified
+    if (mobileDateEl) {
+        const mobileDateStr = now.toLocaleDateString('tr-TR', { weekday: 'long', month: 'long', day: 'numeric' });
+        mobileDateEl.textContent = mobileDateStr.toUpperCase();
+    }
+
+    // Sync Mobile Hero Card
+    if (typeof updateMobileHeroCard === 'function') {
+        updateMobileHeroCard();
+    }
+}
+
+// Mock Weather Update to match screenshot
+function updateWeather() {
+    const tempEl = document.querySelector('.weather-info .temp');
+    const condEl = document.querySelector('.weather-info .condition');
+    if (tempEl) tempEl.textContent = "4°";
+    if (condEl) condEl.textContent = "Parçalı Bulutlu";
+}
+
+function showPage(pageName) {
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+
+    // Reset Mobile Nav Active States
+    document.querySelectorAll('.mobile-nav-item, .floating-nav-item, .dock-item').forEach(link => {
+        link.classList.remove('active');
+        link.style.color = ''; // Reset to CSS default
+        const i = link.querySelector('i');
+        if (i) i.style.color = '';
+    });
+
+    document.querySelectorAll('nav a').forEach(link => {
+        link.classList.remove('active');
+    });
+
+    // Handle Mobile Top Nav Active state
+    document.querySelectorAll('.mobile-top-nav a').forEach(link => {
+        link.classList.remove('active');
+        if (link.onclick.toString().includes(`'${pageName}'`)) {
+            link.classList.add('active');
+        }
+    });
+
+    // Handle Mobile Back Button visibility
+    const backBtn = document.getElementById('mobileBackBtn');
+    if (backBtn) {
+        if (pageName === 'home') {
+            backBtn.classList.remove('show');
+        } else {
+            backBtn.classList.add('show');
+        }
+    }
+    if (window.lucide) lucide.createIcons();
+
+    if (pageName === 'home') {
+        const homePage = document.getElementById('homePage');
+        const mobileNav = document.getElementById('mobile-nav-home');
+        if (homePage) homePage.classList.add('active');
+        if (mobileNav) {
+            mobileNav.classList.add('active');
+            mobileNav.style.color = '#fff';
+            const i = mobileNav.querySelector('i');
+            if (i) i.style.color = '#fff';
+        }
+    } else if (pageName === 'schedule') {
+        const schedulePage = document.getElementById('schedulePage');
+        const navSchedule = document.getElementById('nav-schedule');
+        const mobileNav = document.getElementById('mobile-nav-schedule');
+        if (schedulePage) schedulePage.classList.add('active');
+        if (navSchedule) navSchedule.classList.add('active');
+        if (mobileNav) {
+            mobileNav.classList.add('active');
+            mobileNav.style.color = '#fff';
+            const i = mobileNav.querySelector('i');
+            if (i) i.style.color = '#fff';
+        }
+        if (window.innerWidth <= 768) {
+            const mobileSchedule = document.getElementById('mobileScheduleContainer');
+            const desktopControls = document.getElementById('desktopScheduleControls');
+            const desktopTable = document.querySelector('.schedule-table');
+            if (mobileSchedule) mobileSchedule.style.display = 'block';
+            if (desktopControls) desktopControls.style.display = 'none';
+            if (desktopTable) desktopTable.style.display = 'none';
+            if (typeof setMobileScheduleView === 'function') {
+                setMobileScheduleView('week');
+            }
+        }
+
+    } else if (pageName === 'homework') {
+        const homeworkPage = document.getElementById('homeworkPage');
+        const navHomework = document.getElementById('nav-homework');
+        const mobileNav = document.getElementById('mobile-nav-homework');
+        if (homeworkPage) homeworkPage.classList.add('active');
+        if (navHomework) navHomework.classList.add('active');
+        if (mobileNav) {
+            mobileNav.classList.add('active');
+            mobileNav.style.color = '#fff';
+            const i = mobileNav.querySelector('i');
+            if (i) i.style.color = '#fff';
+        }
+        generateCalendar();
+        renderHomeworkCards();
+        // Also render mobile homework list to update count
+        if (typeof renderMobileHomeworkList === 'function') {
+            renderMobileHomeworkList();
+        }
+    } else if (pageName === 'exams') {
+        const examsPage = document.getElementById('examsPage');
+        const navExams = document.getElementById('nav-exams');
+        const mobileNav = document.getElementById('mobile-nav-exams');
+        if (examsPage) examsPage.classList.add('active');
+        if (navExams) navExams.classList.add('active');
+        if (mobileNav) {
+            mobileNav.classList.add('active');
+            mobileNav.style.color = '#fff';
+            const i = mobileNav.querySelector('i');
+            if (i) i.style.color = '#fff';
+        }
+        if (typeof initExams === 'function') {
+            initExams();
+        }
+    } else if (pageName === 'hub') {
+        const hubPage = document.getElementById('hubPage');
+        const mobileNav = document.getElementById('mobile-nav-hub');
+        const navHub = document.getElementById('nav-hub');
+        if (hubPage) hubPage.classList.add('active');
+        if (navHub) navHub.classList.add('active');
+        if (mobileNav) {
+            mobileNav.classList.add('active');
+            mobileNav.style.color = '#fff';
+            const i = mobileNav.querySelector('i');
+            if (i) i.style.color = '#fff';
+        }
+        if (typeof initHub === 'function' && window.innerWidth <= 768) {
+            initHub();
+        }
+    } else if (pageName === 'ai') {
+        const aiPage = document.getElementById('aiPage');
+        const mobileNav = document.getElementById('mobile-nav-ai');
+        const navAi = document.getElementById('nav-ai');
+        if (aiPage) aiPage.classList.add('active');
+        if (navAi) navAi.classList.add('active');
+        if (mobileNav) {
+            mobileNav.classList.add('active');
+            mobileNav.style.color = '#fff';
+            const i = mobileNav.querySelector('i');
+            if (i) i.style.color = '#fff';
+        }
+    }
+}
+
+window.addEventListener('load', () => {
+    updateCurrentTime();
+    setInterval(updateCurrentTime, 1000);
+    updateWeather();
+    if (window.lucide) lucide.createIcons();
+    setupViewToggles();
+
+    // Setup day selection event listeners
+    document.querySelectorAll('.day-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            selectDay(btn.dataset.day);
+        });
+    });
+
+    // Mobile Day Selector Listeners (Modern)
+    document.querySelectorAll('.day-circle').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const selectedDay = btn.dataset.day;
+            currentMobileTimelineDay = selectedDay;
+            updateMobileTimeline(selectedDay);
+        });
+    });
+
+    // Old Mobile Day Selector Listeners (Fallback)
+    document.querySelectorAll('.m-day-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const selectedDay = btn.dataset.day;
+            currentMobileTimelineDay = selectedDay;
+            updateMobileTimeline(selectedDay);
+        });
+    });
+
+    const days = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma'];
+    const today = new Date().getDay();
+    const currentDayName = days[today === 0 || today === 6 ? 0 : today - 1];
+
+    selectDay(currentDayName);
+
+    // Initialize Mobile Dashboard independently
+    if (typeof updateMobileHeroCard === 'function') {
+        updateMobileHeroCard();
+    }
+    if (typeof updateMobileTimeline === 'function') {
+        // Default to TODAY instead of tomorrow for更好的 user exp
+        const TurkishDays = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+        const todayName = TurkishDays[new Date().getDay()];
+        currentMobileTimelineDay = (todayName === 'Pazar' || todayName === 'Cumartesi') ? 'Pazartesi' : todayName;
+        updateMobileTimeline(currentMobileTimelineDay);
+    }
+});
+
